@@ -21,8 +21,8 @@ class SLLNode(object):
         return self._key
 
     @key.setter
-    def key(self, newKey):
-        self._key = newKey
+    def key(self, new_key):
+        self._key = new_key
     
     @key.deleter
     def key(self):
@@ -36,15 +36,15 @@ class SLLNode(object):
         return self._next
 
     @next.setter
-    def next(self, newNext):
+    def next(self, new_next):
 
-        # STEP 1: Ensure the `newNext` is of type `SLLNode` or None
-        if (isinstance(newNext, SLLNode) or (newNext is None)):
-            self._next = newNext
+        # STEP 1: Ensure the `new_next` is of TYPE `SLLNode` or `None`
+        if (isinstance(new_next, SLLNode) or (new_next is None)):
+            self._next = new_next
             return
         
-        # STEP 2: `newNext` is an INAPPROPRIATE type
-        raise TypeError("`next` must be of TYPE `SLLNode`")
+        # STEP 2: `new_next` is an INAPPROPRIATE type
+        raise TypeError("`new_next` must be of TYPE `SLLNode` or `None`")
     
     @next.deleter
     def next(self):
@@ -69,15 +69,15 @@ class SLL(object):
         return self._head
     
     @head.setter
-    def head(self, newHead):
+    def head(self, new_head):
 
-        # STEP 1: Ensure the `newHead` is a `SLLNode`
-        if (isinstance(newHead, SLLNode) or (newHead is None)):
-            self._head = newHead
+        # STEP 1: Ensure the `new_head` is of TYPE `SLLNode` or `None`
+        if (isinstance(new_head, SLLNode) or (new_head is None)):
+            self._head = new_head
             return
         
-        # STEP 2: `newHead` is an INAPPROPRIATE type
-        raise TypeError("`head` must be of TYPE `SLLNode`")
+        # STEP 2: `new_head` is an INAPPROPRIATE type
+        raise TypeError("`new_head` must be of TYPE `SLLNode` or `None`")
     
     @head.deleter
     def head(self):
@@ -91,36 +91,36 @@ class SLL(object):
         return self._tail
     
     @tail.setter
-    def tail(self, newTail):
+    def tail(self, new_tail):
 
-        # STEP 1: Ensure the `newTail` is a `SLLNode`
-        if (isinstance(newTail, SLLNode) or (newTail is None)):
-            self._tail = newTail
+        # STEP 1: Ensure the `new_tail` is of TYPE `SLLNode` or `None`
+        if (isinstance(new_tail, SLLNode) or (new_tail is None)):
+            self._tail = new_tail
             return
         
-        # STEP 2: `newTail` is an INAPPROPRIATE type
-        raise TypeError("`tail` must be of TYPE `SLLNode`")
+        # STEP 2: `new_tail` is an INAPPROPRIATE type
+        raise TypeError("`new_tail` must be of TYPE `SLLNode` or `None`")
     
     @tail.deleter
     def tail(self):
         del self._tail
 
-    def isEmpty(self):
+    def is_empty(self):
         """
         CHECKS if the SLL is empty.
 
         :Return: 
-            - `True` if the SLL is empty
-            - `False` if the SLL is NOT empty
+            - `True`: if the SLL is empty
+            - `False`: if the SLL is NOT empty
         """
         return ((self.head == None) and (self.tail == None))
 
-    def insertHead(self, newKey):
+    def insert_head(self, new_key):
         """
         INSERTS a new HEAD (i.e. FIRST) node in the SLL.
 
         :Parameters:
-            - `newKey`: the INFORMATION to be associated with the new HEAD 
+            - `new_key`: the INFORMATION to be associated with the new HEAD 
               SLL node
 
         :Return:
@@ -128,23 +128,23 @@ class SLL(object):
         """
 
         # STEP 1: Initialise the new HEAD node & POINTER variables
-        newHead = SLLNode(newKey)
-        newHead.next = self.head
-        self.head = newHead
+        new_head = SLLNode(new_key)
+        new_head.next = self.head
+        self.head = new_head
 
         # EXCEPTION: 1st insertion into the SLL
-        if (self.isEmpty()):
-            self.tail = newHead
+        if (self.is_empty()):
+            self.tail = new_head
 
         # STEP 2: Return the newly added HEAD node
         return self.head
 
-    def insertTail(self, newKey):
+    def insert_tail(self, new_key):
         """
         INSERTS a new TAIL (i.e. END) node in the SLL.
 
         :Parameters:
-            - `newKey`: the INFORMATION to be associated with the new 
+            - `new_key`: the INFORMATION to be associated with the new 
               TAIL SLL node
 
         :Return: 
@@ -152,31 +152,31 @@ class SLL(object):
         """
         
         # STEP 1: Initialise the new TAIL node & POINTER variables
-        newTail = SLLNode(newKey)
+        new_tail = SLLNode(new_key)
 
         # CASE A: 1st insertion into the SLL
         if (self.tail == None):
-            self.head = self.tail = newTail
+            self.head = self.tail = new_tail
 
         # CASE B: NOT the 1st insertion into the SLL
         else:
-            self.tail.next = newTail
-            self.tail = newTail
+            self.tail.next = new_tail
+            self.tail = new_tail
         
         # STEP 2: Return the newly added TAIL node
         return self.tail
 
-    def deleteHead(self):
+    def delete_head(self):
         """
         DELETES the HEAD (i.e. FIRST) node of the SLL.
 
         :Return:
             - A POINTER to the new SLL HEAD node, OR
-            - `None` if the SLL has NO nodes to delete
+            - `None`: if the SLL has NO nodes to delete
         """
         
         # STEP 1: Check if the SLL is empty
-        if (self.isEmpty()):
+        if (self.is_empty()):
             return None
 
         # CASE A: Only ONE node in the SLL remains
@@ -190,13 +190,13 @@ class SLL(object):
         # STEP 2: Read the new SLL HEAD node
         return self.head
         
-    def deleteTail(self):
+    def delete_tail(self):
         """
         DELETES the TAIL (i.e. END) node of the SLL.
 
         :Return:
             - A POINTER to the new SLL TAIL node, OR
-            - `None` if the SLL has NO nodes to delete
+            - `None`: if the SLL has NO nodes to delete
         """
         
         # STEP 1: Initialise the POINTER variables
@@ -224,17 +224,17 @@ class SLL(object):
         # STEP 2: Return the new SLL TAIL node
         return self.tail
 
-    def __iterativeSearch(self, targetKey):
+    def __iterative_search(self, target_key):
         """
         ITERATIVELY searches the SLL & returns a node that MATCHES the target 
         search data.
 
         :Parameters:
-            - `targetKey`: is the DESIRED search data to be queried in the SLL
+            - `target_key`: is the DESIRED search data to be queried in the SLL
 
         :Return: 
             - A POINTER to the node that MATCHES the target search data, OR
-            - A `None` to indicate that NO matches were found
+            - `None`: to indicate that NO matches were found
         """
 
         # STEP 1: ZERO nodes remain
@@ -246,58 +246,55 @@ class SLL(object):
         while (curr):
 
             # STEP 3: Check if the current node's key MATCHES the target key
-            if (curr.key == targetKey):
+            if (curr.key == target_key):
                 return curr
 
             # STEP 4: Move to the next node
             curr = curr.next
 
         # STEP 5: Indicate that NO matches were detected
-        return curr
+        return None
 
-    def __recursiveSearch(self, targetKey, selfHead):
+    def __recursive_search(self, target_key, self_head):
         """
         RECURSIVELY searches the SLL & returns a node that MATCHES the target 
         search data.
 
         :Parameters:
-            - `targetKey`: is the DESIRED search data to be queried in the SLL
-            - `selfHead`: is the CURRENT instance's head node (i.e. self.head)
+            - `target_key`: is the DESIRED search data to be queried in the SLL
+            - `self_head`: is the CURRENT instance's head node (i.e. self.head)
 
         :Return: 
             - A POINTER to the node that MATCHES the target search data, OR
-            - A `None` to indicate that NO matches were found
+            - `None`: to indicate that NO matches were found
         """
         
         # BASE CASE 1: Went beyond the TAIL node OR ZERO nodes remain
-        if (not selfHead):
+        if (not self_head):
             return None
         
         # BASE CASE 2: Found a match
-        if (selfHead.key == targetKey):
-            return selfHead
+        if (self_head.key == target_key):
+            return self_head
 
         # RECURSIVE CASE: Still more SLL nodes to search
-        return self.__recursiveSearch(targetKey, selfHead.next)
+        return self.__recursive_search(target_key, self_head.next)
 
-    def search(self, targetKey, mode = 'i'):
+    def search(self, target_key, mode = 'i'):
         """
         SEARCHES the SLL & returns the 1st instance of a SLL node who's key 
         MATCHES the target search key.
 
         :Parameters:
-            - `targetKey`: is the DESIRED search data to be queried in the SLL
+            - `target_key`: is the DESIRED search data to be queried in the SLL
             - `mode` (optional): a SINGLE character `str` that indicates if  
               the SLL search is conducted iteratively 'i' (default), or 
               recursively 'r'
 
         :Return: 
             - A POINTER to the node that MATCHES the target search data, OR
-            - A `None` to indicate that NO matches were found
+            - `None`: to indicate that NO matches were found
         """
-
-        # STEP 1: Initialise result as `None`
-        result = None
 
         # CASE A: Mode is an INAPPROPRIATE type
         if (not isinstance(mode, str)):
@@ -305,20 +302,19 @@ class SLL(object):
 
         # CASE B: Use the ITERATIVE search method
         elif (mode == 'i'):
-            result = self.__iterativeSearch(targetKey)
+            result = self.__iterative_search(target_key)
 
         # CASE C: Use the RECURSIVE search method
         elif (mode == 'r'):
-            result = self.__recursiveSearch(targetKey, self.head)
+            result = self.__recursive_search(target_key, self.head)
 
         # CASE D: Mode is an INAPPROPRIATE value
         else:
             raise ValueError("`mode` must be of VALUE 'i' or 'r'")
 
-        # STEP 2: Return the result
         return result
 
-    def __iterativeReverse(self):
+    def __iterative_reverse(self):
         """
         ITERATIVELY reverses the node ORDER in a SLL.
         """
@@ -338,33 +334,33 @@ class SLL(object):
         # STEP 3: Make the head point to the ORIGINAL tail
         self.head = prev
 
-    def __recursiveReverse(self, selfHead):
+    def __recursive_reverse(self, self_head):
         """
         RECURSIVELY reverses the node ORDER in a SLL.
 
         :Parameters:
-            - `selfHead`: is the CURRENT instance's head node (i.e. self.head)
+            - `self_head`: is the CURRENT instance's head node (i.e. self.head)
 
         :Return:
             A POINTER to starting from the ORIGINAL TAIL node
         """
 
         # STEP 1: Check if the SLL is empty
-        if (selfHead == None):
+        if (self_head == None):
             return None
 
         # BASE CASE: Reached the TAIL node of the DLL
-        if (selfHead.next == None):
+        if (self_head.next == None):
             self.tail = self.head
-            self.head = selfHead
-            return selfHead
+            self.head = self_head
+            return self_head
 
         # RECURSIVE CASE: Keep traversing SLL to TAIL node
-        rest = self.__recursiveReverse(selfHead.next)
+        rest = self.__recursive_reverse(self_head.next)
 
         # STEP 2: Traverse the SLL BACKWARDS & adjust POINTER values
-        selfHead.next.next = selfHead
-        selfHead.next = None
+        self_head.next.next = self_head
+        self_head.next = None
         return rest
 
     def reverse(self, mode = 'i'):
@@ -383,11 +379,11 @@ class SLL(object):
 
         # CASE B: Use the ITERATIVE search method
         elif (mode == 'i'):
-            self.__iterativeReverse()
+            self.__iterative_reverse()
 
         # CASE C: Use the RECURSIVE search method
         elif (mode == 'r'):
-            self.__recursiveReverse(self.head)
+            self.__recursive_reverse(self.head)
 
         # CASE D: Mode is an INAPPROPRIATE value
         else:

@@ -22,8 +22,8 @@ class DLLNode(object):
         return self._key
 
     @key.setter
-    def key(self, newKey):
-        self._key = newKey
+    def key(self, new_key):
+        self._key = new_key
     
     @key.deleter
     def key(self):
@@ -37,15 +37,15 @@ class DLLNode(object):
         return self._next
 
     @next.setter
-    def next(self, newNext):
+    def next(self, new_next):
 
-        # STEP 1: Ensure the `newNext` is of type `DLLNode` or `None`
-        if (isinstance(newNext, DLLNode) or (newNext is None)):
-            self._next = newNext
+        # STEP 1: Ensure the `new_next` is of type `DLLNode` or `None`
+        if (isinstance(new_next, DLLNode) or (new_next is None)):
+            self._next = new_next
             return
         
-        # STEP 2: `newNext` is an INAPPROPRIATE type
-        raise TypeError("`next` must be of TYPE `DLLNode` or `None`")
+        # STEP 2: `new_next` is an INAPPROPRIATE type
+        raise TypeError("`new_next` must be of TYPE `DLLNode` or `None`")
     
     @next.deleter
     def next(self):
@@ -59,15 +59,15 @@ class DLLNode(object):
         return self._prev
 
     @prev.setter
-    def prev(self, newPrev):
+    def prev(self, new_prev):
 
-        # STEP 1: Ensure the `newPrev` is type `DLLNode` or `None`
-        if (isinstance(newPrev, DLLNode) or (newPrev is None)):
-            self._prev = newPrev
+        # STEP 1: Ensure the `new_prev` is type `DLLNode` or `None`
+        if (isinstance(new_prev, DLLNode) or (new_prev is None)):
+            self._prev = new_prev
             return
         
-        # STEP 2: `newPrev` is an INAPPROPRIATE type
-        raise TypeError("`prev` must be of TYPE `DLLNode` or `None`")
+        # STEP 2: `new_prev` is an INAPPROPRIATE type
+        raise TypeError("`new_prev` must be of TYPE `DLLNode` or `None`")
     
     @prev.deleter
     def prev(self):
@@ -92,15 +92,15 @@ class DLLQ(object):
         return self._head
     
     @head.setter
-    def head(self, newHead):
+    def head(self, new_head):
 
-        # STEP 1: Ensure the `newHead` is of TYPE `DLLNode` or `None`
-        if (isinstance(newHead, DLLNode) or (newHead is None)):
-            self._head = newHead
+        # STEP 1: Ensure the `new_head` is of TYPE `DLLNode` or `None`
+        if (isinstance(new_head, DLLNode) or (new_head is None)):
+            self._head = new_head
             return
         
-        # STEP 2: `newHead` is an INAPPROPRIATE type
-        raise TypeError("`head` must be of TYPE `DLLNode` or `None`")
+        # STEP 2: `new_head` is an INAPPROPRIATE type
+        raise TypeError("`new_head` must be of TYPE `DLLNode` or `None`")
     
     @head.deleter
     def head(self):
@@ -114,36 +114,36 @@ class DLLQ(object):
         return self._tail
     
     @tail.setter
-    def tail(self, newTail):
+    def tail(self, new_tail):
 
-        # STEP 1: Ensure the `newTail` is of TYPE `DLLNode` or `None`
-        if (isinstance(newTail, DLLNode) or (newTail is None)):
-            self._tail = newTail
+        # STEP 1: Ensure the `new_tail` is of TYPE `DLLNode` or `None`
+        if (isinstance(new_tail, DLLNode) or (new_tail is None)):
+            self._tail = new_tail
             return
         
-        # STEP 2: `newTail` is an inappropriate type
-        raise TypeError("`tail` must be of TYPE `DLLNode` or `None`")
+        # STEP 2: `new_tail` is an inappropriate type
+        raise TypeError("`new_tail` must be of TYPE `DLLNode` or `None`")
     
     @tail.deleter
     def tail(self):
         del self._tail
 
-    def isEmpty(self):
+    def is_empty(self):
         """
         CHECKS if the DLLQ is empty.
 
         :Return: 
-            - `True` if the DLLQ is empty
-            - `False` if the DLLQ is NOT empty
+            - `True`: if the DLLQ is empty
+            - `False`: if the DLLQ is NOT empty
         """
         return ((self.head == None) and (self.tail == None))
     
-    def enqueue(self, newKey):
+    def enqueue(self, new_key):
         """
         INSERTS a new TAIL (i.e. END) node in the DLLQ.
 
         :Parameters:
-            - `newKey`: is the INFORMATION to be associated with the new 
+            - `new_key`: is the INFORMATION to be associated with the new 
               TAIL DLLQ node
 
         :Return:
@@ -151,18 +151,18 @@ class DLLQ(object):
         """
         
         # STEP 1: Adjust the DLLQ head pointer
-        newTail = DLLNode(newKey)
-        newTail.next = None
-        newTail.prev = self.tail
+        new_tail = DLLNode(new_key)
+        new_tail.next = None
+        new_tail.prev = self.tail
 
         # CASE A: This is the 1st DLLQ node insertion
         if (self.tail == None):
-            self.head = self.tail = newTail
+            self.head = self.tail = new_tail
 
         # CASE B: NOT the 1st DLLQ node insertion
         else:
-            self.tail.next = newTail
-            self.tail = newTail
+            self.tail.next = new_tail
+            self.tail = new_tail
         
         # STEP 2: Return the NEWLY added DLLQ TAIL node
         return self.tail
@@ -173,16 +173,16 @@ class DLLQ(object):
 
         :Return:
             - A POINTER to the new DLLQ HEAD node, OR 
-            - `None` if the DLLQ has NO nodes to delete
+            - `None`: if the DLLQ has NO nodes to delete
         """
 
         # STEP 1: Check if the DLLQ is empty
-        if (self.isEmpty()):
+        if (self.is_empty()):
             return None
         
         # STEP 2: Initalise the POINTER variables
-        oldHead = self.head
-        self.head = oldHead.next
+        old_head = self.head
+        self.head = old_head.next
 
         # CASE A: The only DLLQ node got deleted
         if (self.head == None):
@@ -195,17 +195,17 @@ class DLLQ(object):
         # STEP 3: Return the new DLLQ HEAD node
         return self.head
 
-    def __iterativeSearch(self, targetKey):
+    def __iterative_search(self, target_key):
         """
         ITERATIVELY searches the DLLQ & returns a node that MATCHES the target 
         search data.
 
         :Parameters:
-            - `targetKey`: is the DESIRED search data to be queried in the DLLQ
+            - `target_key`: is the DESIRED search data to be queried in the DLLQ
 
         :Return:
             - A POINTER to the DLLQ node that MATCHES the target search data, OR 
-            - `None` to indicate that NO matches were found
+            - `None`: to indicate that NO matches were found
         """
         
         # STEP 1: Linear search the DLLQ up to the TAIL node
@@ -213,7 +213,7 @@ class DLLQ(object):
         while (curr):
 
             # STEP 2: Check if a MATCH was detected
-            if (curr.key == targetKey):
+            if (curr.key == target_key):
                 return curr
 
             # STEP 3: NO match detected, move to the next node
@@ -222,32 +222,32 @@ class DLLQ(object):
         # STEP 4: Indicate that NO matches were detected
         return None
 
-    def __recursiveSearch(self, targetKey, selfHead):
+    def __recursive_search(self, target_key, self_head):
         """
         RECURSIVELY searches the DLLQ & returns a node that MATCHES the target 
         search data.
 
         :Parameters:
-            - `targetKey`: is the DESIRED search data to be queried in the DLLQ
-            - `selfHead`: is the CURRENT instance's head node (i.e. self.head)
+            - `target_key`: is the DESIRED search data to be queried in the DLLQ
+            - `self_head`: is the CURRENT instance's head node (i.e. self.head)
 
         :Return: 
             - A POINTER to the node that MATCHES the target search data, OR
-            - A `None` to indicate that NO matches were found
+            - `None`: to indicate that NO matches were found
         """
 
         # BASE CASE 1: Went beyond the TAIL node OR ZERO nodes remain
-        if (not selfHead):
+        if (not self_head):
             return None
         
         # BASE CASE 2: Found a match
-        if (selfHead.key == targetKey):
-            return selfHead
+        if (self_head.key == target_key):
+            return self_head
 
         # RECURSIVE CASE: Still more DLLQ nodes to search
-        return self.__recursiveSearch(targetKey, selfHead.next)
+        return self.__recursive_search(target_key, self_head.next)
 
-    def search(self, targetKey, mode = 'i'):
+    def search(self, target_key, mode = 'i'):
         """
         SEARCHES the DLLQ & returns the 1st instance of a DLLQ node who's key 
         MATCHES the target search key.
@@ -260,11 +260,8 @@ class DLLQ(object):
 
         :Return: 
             - A POINTER to the node that MATCHES the target search data, OR
-            - A `None` to indicate that NO matches were found
+            - `None`: to indicate that NO matches were found
         """
-
-        # STEP 1: Initialise result as `None`
-        result = None
 
         # CASE A: Mode is an INAPPROPRIATE type
         if (not isinstance(mode, str)):
@@ -272,15 +269,14 @@ class DLLQ(object):
 
         # CASE B: Use the ITERATIVE search method
         elif (mode == 'i'):
-            result = self.__iterativeSearch(targetKey)
+            result = self.__iterative_search(target_key)
 
         # CASE C: Use the RECURSIVE search method
         elif (mode == 'r'):
-            result = self.__recursiveSearch(targetKey, self.head)
+            result = self.__recursive_search(target_key, self.head)
 
         # CASE D: Mode is an INAPPROPRIATE value
         else:
             raise ValueError("`mode` must be of VALUE 'i' or 'r'")
 
-        # STEP 2: Return the result
         return result

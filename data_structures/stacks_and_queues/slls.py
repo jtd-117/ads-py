@@ -21,8 +21,8 @@ class SLLNode(object):
         return self._key
 
     @key.setter
-    def key(self, newKey):
-        self._key = newKey
+    def key(self, new_key):
+        self._key = new_key
     
     @key.deleter
     def key(self):
@@ -36,15 +36,15 @@ class SLLNode(object):
         return self._next
 
     @next.setter
-    def next(self, newNext):
+    def next(self, new_next):
 
-        # STEP 1: Ensure the `newNext` is of type `SLLNode` or None
-        if (isinstance(newNext, SLLNode) or (newNext is None)):
-            self._next = newNext
+        # STEP 1: Ensure the `new_next` is of TYPE `SLLNode` or `None`
+        if (isinstance(new_next, SLLNode) or (new_next is None)):
+            self._next = new_next
             return
         
-        # STEP 2: `newNext` is an INAPPROPRIATE type
-        raise TypeError("`next` must be of TYPE `SLLNode`")
+        # STEP 2: `new_next` is an INAPPROPRIATE type
+        raise TypeError("`new_next` must be of TYPE `SLLNode` or `None`")
     
     @next.deleter
     def next(self):
@@ -64,20 +64,20 @@ class SLLS(object):
     @property
     def head(self):
         """
-        The FIRST node in the SLLS.
+        The FIRST node in the SLLQ.
         """
         return self._head
     
     @head.setter
-    def head(self, newHead):
+    def head(self, new_head):
 
-        # STEP 1: Ensure the `newHead` is a `SLLNode`
-        if (isinstance(newHead, SLLNode) or (newHead is None)):
-            self._head = newHead
+        # STEP 1: Ensure the `new_head` is of TYPE `SLLNode` or `None`
+        if (isinstance(new_head, SLLNode) or (new_head is None)):
+            self._head = new_head
             return
         
-        # STEP 2: `newHead` is an INAPPROPRIATE type
-        raise TypeError("`head` must be of TYPE `SLLNode`")
+        # STEP 2: `new_head` is an INAPPROPRIATE type
+        raise TypeError("`new_head` must be of TYPE `SLLNode` or `None`")
     
     @head.deleter
     def head(self):
@@ -86,41 +86,41 @@ class SLLS(object):
     @property
     def tail(self):
         """
-        The LAST node in the SLLS.
+        The LAST node in the SLLQ.
         """
         return self._tail
     
     @tail.setter
-    def tail(self, newTail):
+    def tail(self, new_tail):
 
-        # STEP 1: Ensure the `newTail` is a `SLLNode`
-        if (isinstance(newTail, SLLNode) or (newTail is None)):
-            self._tail = newTail
+        # STEP 1: Ensure the `new_tail` is of TYPE `SLLNode` or `None`
+        if (isinstance(new_tail, SLLNode) or (new_tail is None)):
+            self._tail = new_tail
             return
         
-        # STEP 2: `newTail` is an INAPPROPRIATE type
-        raise TypeError("`tail` must be of TYPE `SLLNode`")
+        # STEP 2: `new_tail` is an INAPPROPRIATE type
+        raise TypeError("`new_tail` must be of TYPE `SLLNode` or `None`")
     
     @tail.deleter
     def tail(self):
         del self._tail
 
-    def isEmpty(self):
+    def is_empty(self):
         """
-        CHECKS if the SLLS is empty.
+        CHECKS if the SLLQ is empty.
 
         :Return: 
-            - `True` if the SLLS is empty
-            - `False` if the SLLS is NOT empty
+            - `True`: if the SLLQ is empty
+            - `False`: if the SLLQ is NOT empty
         """
         return ((self.head == None) and (self.tail == None))
 
-    def push(self, newKey):
+    def push(self, new_key):
         """
         INSERTS a new TAIL (i.e. END) node in the SLLS.
 
         :Parameters:
-            - `newKey`: the INFORMATION to be associated with the new 
+            - `new_key`: the INFORMATION to be associated with the new 
               TAIL SLLS node
 
         :Return: 
@@ -128,16 +128,16 @@ class SLLS(object):
         """
         
         # STEP 1: Initialise the new TAIL node & POINTER variables
-        newTail = SLLNode(newKey)
+        new_tail = SLLNode(new_key)
 
         # CASE A: 1st insertion into the SLLS
         if (self.tail == None):
-            self.head = self.tail = newTail
+            self.head = self.tail = new_tail
 
         # CASE B: NOT the 1st insertion into the SLLS
         else:
-            self.tail.next = newTail
-            self.tail = newTail
+            self.tail.next = new_tail
+            self.tail = new_tail
         
         # STEP 2: Return the newly added TAIL node
         return self.tail
@@ -148,7 +148,7 @@ class SLLS(object):
 
         :Return:
             - A POINTER to the new SLLS TAIL node, OR
-            - `None` if the SLLS has NO nodes to delete
+            - `None`: if the SLLS has NO nodes to delete
         """
         
         # STEP 1: Initialise the POINTER variables
@@ -176,17 +176,17 @@ class SLLS(object):
         # STEP 2: Return the new SLLS TAIL node
         return self.tail
 
-    def __iterativeSearch(self, targetKey):
+    def __iterative_search(self, target_key):
         """
         ITERATIVELY searches the SLLS & returns a node that MATCHES the target 
         search data.
 
         :Parameters:
-            - `targetKey`: is the DESIRED search data to be queried in the SLLS
+            - `target_key`: is the DESIRED search data to be queried in the SLLS
 
         :Return: 
             - A POINTER to the node that MATCHES the target search data, OR
-            - A `None` to indicate that NO matches were found
+            - `None`: to indicate that NO matches were found
         """
 
         # STEP 1: ZERO nodes remain
@@ -198,7 +198,7 @@ class SLLS(object):
         while (curr):
 
             # STEP 3: Check if the current node's key MATCHES the target key
-            if (curr.key == targetKey):
+            if (curr.key == target_key):
                 return curr
 
             # STEP 4: Move to the next node
@@ -207,49 +207,46 @@ class SLLS(object):
         # STEP 5: Indicate that NO matches were detected
         return curr
 
-    def __recursiveSearch(self, targetKey, selfHead):
+    def __recursive_search(self, target_key, self_head):
         """
         RECURSIVELY searches the SLLS & returns a node that MATCHES the target 
         search data.
 
         :Parameters:
-            - `targetKey`: is the DESIRED search data to be queried in the SLLS
-            - `selfHead`: is the CURRENT instance's head node (i.e. self.head)
+            - `target_key`: is the DESIRED search data to be queried in the SLLS
+            - `self_head`: is the CURRENT instance's head node (i.e. self.head)
 
         :Return: 
             - A POINTER to the node that MATCHES the target search data, OR
-            - A `None` to indicate that NO matches were found
+            - `None`: to indicate that NO matches were found
         """
         
         # BASE CASE 1: Went beyond the TAIL node OR ZERO nodes remain
-        if (not selfHead):
+        if (not self_head):
             return None
         
         # BASE CASE 2: Found a match
-        if (selfHead.key == targetKey):
-            return selfHead
+        if (self_head.key == target_key):
+            return self_head
 
         # RECURSIVE CASE: Still more SLL nodes to search
-        return self.__recursiveSearch(targetKey, selfHead.next)
+        return self.__recursive_search(target_key, self_head.next)
 
-    def search(self, targetKey, mode = 'i'):
+    def search(self, target_key, mode = 'i'):
         """
         SEARCHES the SLLS & returns the 1st instance of a SLLS node who's key 
         MATCHES the target search key.
 
         :Parameters:
-            - `targetKey`: is the DESIRED search data to be queried in the SLLS
+            - `target_key`: is the DESIRED search data to be queried in the SLLS
             - `mode` (optional): a SINGLE character `str` that indicates if  
               the SLLS search is conducted iteratively 'i' (default), or 
               recursively 'r'
 
         :Return: 
             - A POINTER to the node that MATCHES the target search data, OR
-            - A `None` to indicate that NO matches were found
+            - `None`: to indicate that NO matches were found
         """
-
-        # STEP 1: Initialise result as `None`
-        result = None
 
         # CASE A: Mode is an INAPPROPRIATE type
         if (not isinstance(mode, str)):
@@ -257,15 +254,14 @@ class SLLS(object):
 
         # CASE B: Use the ITERATIVE search method
         elif (mode == 'i'):
-            result = self.__iterativeSearch(targetKey)
+            result = self.__iterative_search(target_key)
 
         # CASE C: Use the RECURSIVE search method
         elif (mode == 'r'):
-            result = self.__recursiveSearch(targetKey, self.head)
+            result = self.__recursive_search(target_key, self.head)
 
         # CASE D: Mode is an INAPPROPRIATE value
         else:
             raise ValueError("`mode` must be of VALUE 'i' or 'r'")
 
-        # STEP 2: Return the result
         return result
