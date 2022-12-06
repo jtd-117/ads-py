@@ -18,6 +18,7 @@ TYPE: | CONTENTS:
 --- | ---
 Linked Lists | - Singly Linked Lists (SLL) <br> - Doubly Linked Lists (DLL) <br> - Singly Circular Linked Lists (SCLL) <br> - Doubly Circular Linked Lists (DCLL)
 Stacks & Queues | - Array-based Stack <br> - Array-based Queue <br> - SLL Stack (SLLS) <br> - SLL Queue (SLLQ) <br> - DLL Queue (DLLQ) <br> - DLL Stack (DLLS)
+Priority Queues | - Binary Heap <br> - SLL Priority Queue (SLLPQ) <br> - DLL Priority Queue (DLLPQ)
 Trees | - AVL Trees <br> - B-Trees <br> - Binary Search Trees (BST) <br> - Red-Black Trees (RBT) <br> - Trie <br> - Van Emde Boas Trees
 Hash Maps | - SLL Chain <br> - BST Chain <br> - AVL Chain <br> - Linear Probing
 Graphs | - Adjacency Lists <br> - Adjacency Matrix <br> - Disjoint Sets & Union Find
