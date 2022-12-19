@@ -368,17 +368,15 @@ class DLL(object):
 
         # CASE B: Use the ITERATIVE search method
         elif (mode == 'i'):
-            result = self.__iterative_search(target_key)
+            return self.__iterative_search(target_key)
 
         # CASE C: Use the RECURSIVE search method
         elif (mode == 'r'):
-            result = self.__recursive_search(target_key, self.head)
+            return self.__recursive_search(target_key, self.head)
 
         # CASE D: Mode is an INAPPROPRIATE value
         else:
             raise ValueError("`mode` must be of VALUE 'i' or 'r'")
-
-        return result
 
     def __iterative_reverse(self):
         """

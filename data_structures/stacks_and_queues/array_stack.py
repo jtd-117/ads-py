@@ -149,14 +149,12 @@ class ArrStack(object):
 
         # CASE B: Use the ITERATIVE search method
         elif (mode == 'i'):
-            result = self.__iterative_search(new_value)
+            return self.__iterative_search(new_value)
 
         # CASE C: Use the RECURSIVE search method
         elif (mode == 'r'):
-            result = self.__recursive_search(new_value)
+            return self.__recursive_search(new_value)
 
         # CASE D: Mode is an INAPPROPRIATE value
         else:
             raise ValueError("`mode` must be of VALUE 'i' or 'r'")
-
-        return result
