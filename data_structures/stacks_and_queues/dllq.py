@@ -80,10 +80,52 @@ class DLLQ(object):
     An INTERFACE for a doubly linked-list queue (DLLQ).
     """
 
-    def __init__(self):
+    # DLLQ ATTRIBUTES:
+    cmp_greater = 1
+    cmp_equal = 0
+    cmp_less = -1
+
+    def __init__(self, cmp_fn):
+
+        # STEP 1: Ensure `cmp_fn` is a function
+        if (not callable(cmp_fn)):
+            raise TypeError("`cmp_fn` must be of TYPE 'function'")
+
+        # STEP 2: Assign class attributes
+        self._cmp_fn = cmp_fn
         self._head = None
         self._tail = None
-    
+
+    @property
+    def cmp_fn(self):
+        """
+        A custom function for COMPARING `BSTNode` keys.
+
+        :Parameters:
+            - 'v1': The 1st variable for comparison
+            - 'v2': The 2nd variable for comparison
+
+        :Return:
+            - `1`: if `v1` is GREATER than `v2` 
+            - `0`: if `v1` & `v2` are EQUAL
+            - `-1`: if `v1` is LESS than `v2` 
+        """
+        return self._cmp_fn
+
+    @cmp_fn.setter
+    def cmp_fn(self, new_cmp_fn):
+
+        # STEP 1: Ensure `new_cmp_fn` is of type 'function'
+        if (not callable(new_cmp_fn)):
+            raise TypeError("`new_cmp_fn` must be of TYPE 'function'")
+        
+        # STEP 2: Assign the new comparison function
+        self._cmp_fn = new_cmp_fn
+
+    @cmp_fn.deleter
+    def cmp_fn(self):
+        del self._cmp_fn
+
     @property
     def head(self):
         """
@@ -213,7 +255,7 @@ class DLLQ(object):
         while (curr):
 
             # STEP 2: Check if a MATCH was detected
-            if (curr.key == target_key):
+            if (self.cmp_fn(curr.key, target_key) == self.cmp_equal):
                 return curr
 
             # STEP 3: NO match detected, move to the next node
@@ -241,7 +283,7 @@ class DLLQ(object):
             return None
         
         # BASE CASE 2: Found a match
-        if (self_head.key == target_key):
+        if (self.cmp_fn(self_head.key, target_key) == self.cmp_equal):
             return self_head
 
         # RECURSIVE CASE: Still more DLLQ nodes to search
