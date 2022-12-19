@@ -104,8 +104,50 @@ class BST(object):
     An INTERFACE for a binary search tree (BST).
     """
 
-    def __init__(self):
+    # CLASS ATTRIBUTES:
+    cmp_greater = 1
+    cmp_equal = 0
+    cmp_less = -1
+
+    def __init__(self, cmp_fn):
+
+        # STEP 1: Ensure `cmp_fn` is a function
+        if (not callable(cmp_fn)):
+            raise TypeError("`cmp_fn` must be of TYPE 'function'")
+
+        # STEP 2: Assign BST attributes
+        self._cmp_fn = cmp_fn
         self._root = None
+
+    @property
+    def cmp_fn(self):
+        """
+        A custom function for COMPARING `BSTNode` keys.
+
+        :Parameters:
+            - 'v1': The 1st variable for comparison
+            - 'v2': The 2nd variable for comparison
+
+        :Return:
+            - `1`: if `v1` is GREATER than `v2` 
+            - `0`: if `v1` & `v2` are EQUAL
+            - `-1`: if `v1` is LESS than `v2` 
+        """
+        return self._cmp_fn
+
+    @cmp_fn.setter
+    def cmp_fn(self, new_cmp_fn):
+
+        # STEP 1: Ensure `new_cmp_fn` is of type 'function'
+        if (not callable(new_cmp_fn)):
+            raise TypeError("`new_cmp_fn` must be of TYPE 'function'")
+        
+        # STEP 2: Assign the new comparison function
+        self._cmp_fn = new_cmp_fn
+
+    @cmp_fn.deleter
+    def cmp_fn(self):
+        del self._cmp_fn
 
     @property
     def root(self):
@@ -149,7 +191,7 @@ class BST(object):
             prev = curr
 
             # CASE 2A: Traverse LEFT child, key is LESS
-            if (new_node.key < curr.key):
+            if (self.cmp_fn(new_node.key, curr.key) == self.cmp_less):
                 curr = curr.lc
 
             # CASE 2B: Traverse RIGHT child, key is GREATER than or EQUAL
@@ -164,7 +206,7 @@ class BST(object):
             self._root = new_node
 
         # STEP 4B: Inserted node's key is LESS
-        elif (new_node.key < prev.key):
+        elif (self.cmp_fn(new_node.key, prev.key) == self.cmp_less):
             prev.lc = new_node
 
         # STEP 4C: Inserted node'skey is GREATER than or EQUAL to
@@ -179,7 +221,7 @@ class BST(object):
         :Parameters:
             - `new_node`: The node to be inserted into the BST
             - `root`: The 1st node in the BST
-            - 'root_parent' (optional): The PARENT node of `root`
+            - `root_parent` (optional): The PARENT node of `root`
         
         :Return:
             A POINTER to the newly inserted BST node
@@ -191,7 +233,7 @@ class BST(object):
             return new_node
         
         # RECURSIVE CASE 1: Traverse LEFT
-        if (new_node.key < root.key):
+        if (self.cmp_fn(new_node.key, root.key) == self.cmp_less):
             root.lc = self.__recursive_insert(new_node, root.lc, root)
         
         # RECURSIVE CASE 2: Traverse RIGHT
@@ -283,7 +325,7 @@ class BST(object):
             - `node`: the BST node to find the PREDECESSOR of
 
         :Return:
-            - A POINTER to the PREDECESSOR BST node of parameter `node`, or
+            - A POINTER to the PREDECESSOR BST node of parameter `node`, OR
             - `None`: if NO predecessor exists
         """
         
@@ -292,12 +334,12 @@ class BST(object):
             raise TypeError("`node` must be of TYPE `BSTNode`")
 
         # CASE A: Predecessor is one of the CHILD nodes of `node`
-        if (node.lc is not None):
+        if (node.lc != None):
             return self.max_node(node.lc)
 
         # CASE B: Predecessor is one of the PARENT nodes of `node`
         predecessor = node.p
-        while ((predecessor is not None) and (node is predecessor.lc)):
+        while ((predecessor != None) and (node is predecessor.lc)):
             node = predecessor
             predecessor = predecessor.p
         return predecessor
@@ -310,7 +352,7 @@ class BST(object):
             - `node`: the BST node to find the SUCCESSOR of
 
         :Return:
-            - A POINTER to the SUCCESSOR BST node of parameter `node`, or
+            - A POINTER to the SUCCESSOR BST node of parameter `node`, OR
             - `None`: if NO successor exists
         """
 
@@ -319,12 +361,12 @@ class BST(object):
             raise TypeError("`node` must be of TYPE `BSTNode`")
         
         # CASE A: Successor is one of the CHILD nodes of `node`
-        if (node.rc is not None):
+        if (node.rc != None):
             return self.min_node(node.rc)
 
         # CASE B: Successor is one of the PARENT nodes of `node`
         successor = node.p
-        while ((successor is not None) and (node is successor.rc)):
+        while ((successor != None) and (node is successor.rc)):
             node = successor
             successor = successor.p
         return successor
@@ -464,14 +506,14 @@ class BST(object):
 
         # STEP 1: Initialise the ROOT node
         root = self.root
-        while (root is not None):
+        while (root != None):
 
             # CASE 1A: Traverse towards the LEFT child node
-            if (target_key < root.key):
+            if (self.cmp_fn(target_key, root.key) == self.cmp_less):
                 root = root.lc
 
             # CASE 1B: Traverse towards the RIGHT child node
-            elif (target_key > root.key):
+            elif (self.cmp_fn(target_key, root.key) == self.cmp_greater):
                 root = root.rc
 
             # CASE 1C: Found a node with the SAME `target_key`
@@ -499,11 +541,11 @@ class BST(object):
             return None
         
         # BASE CASE 2: `target_key` has been FOUND
-        elif (root.key is target_key):
+        elif (self.cmp_fn(root.key, target_key) == self.cmp_equal):
             return root
         
         # RECURSIVE CASE 1: Traverse to RIGHT child
-        elif (target_key > root.key):
+        elif (self.cmp_fn(root.key, root.key) == self.cmp_greater):
             return self.__recursive_search(root.rc, target_key)
         
         # RECURSIVE CASE 2: Traverse to LEFT child
