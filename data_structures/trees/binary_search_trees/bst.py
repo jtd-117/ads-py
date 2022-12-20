@@ -12,8 +12,8 @@ class BSTNode(object):
     def __init__(self, key):
         self._key = key
         self._p = None
-        self._rc = None
         self._lc = None
+        self._rc = None
   
     @property
     def key(self):
@@ -23,8 +23,8 @@ class BSTNode(object):
         return self._key
     
     @key.setter
-    def key(self, newKey):
-        self._key = newKey
+    def key(self, new_key):
+        self._key = new_key
 
     @key.deleter
     def key(self):
@@ -53,6 +53,28 @@ class BSTNode(object):
         del self._p
 
     @property
+    def lc(self):
+        """
+        The LEFT CHILD of the BST node: has a key LESS than the parent key.
+        """
+        return self._lc
+    
+    @lc.setter
+    def lc(self, lc):
+
+        # STEP 1: Ensure `lc` is of type `BSTNode` or `None`
+        if (isinstance(lc, BSTNode) or (lc is None)):
+            self._lc = lc
+            return
+        
+        # STEP 2: `lc` is an INAPPROPRIATE type
+        raise TypeError("`lc` must be of TYPE `BSTNode` or `None`")
+
+    @lc.deleter
+    def lc(self):
+        del self._lc   
+
+    @property
     def rc(self):
         """
         The RIGHT CHILD of the BST node: has a key GREATER or EQUAL to the 
@@ -74,28 +96,6 @@ class BSTNode(object):
     @rc.deleter
     def rc(self):
         del self._rc
-
-    @property
-    def lc(self):
-        """
-        The LEFT CHILD of the BST node: has a key LESS than the parent key.
-        """
-        return self._lc
-    
-    @lc.setter
-    def lc(self, lc):
-
-        # STEP 1: Ensure `lc` is of type `BSTNode` or `None`
-        if (isinstance(lc, BSTNode) or (lc is None)):
-            self._lc = lc
-            return
-        
-        # STEP 2: `lc` is an INAPPROPRIATE type
-        raise TypeError("`lc` must be of TYPE `BSTNode` or `None`")
-
-    @lc.deleter
-    def lc(self):
-        del self._lc   
 
 # ---------------------------------------------------------------------------- #
 
