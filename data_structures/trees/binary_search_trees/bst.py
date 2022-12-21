@@ -11,9 +11,9 @@ class BSTNode(object):
 
     def __init__(self, key):
         self._key = key
-        self._p = None
-        self._lc = None
-        self._rc = None
+        self._parent = None
+        self._left_child = None
+        self._right_child = None
   
     @property
     def key(self):
@@ -31,71 +31,71 @@ class BSTNode(object):
         del self._key
 
     @property
-    def p(self):
+    def parent(self):
         """
         The PARENT node of the current BST node.
         """
-        return self._p
+        return self._parent
 
-    @p.setter
-    def p(self, new_parent):
+    @parent.setter
+    def parent(self, new_parent):
 
         # STEP 1: Ensure `new_parent` is of type `BSTNode` or `None`
         if (isinstance(new_parent, BSTNode) or (new_parent is None)):
-            self._p = new_parent
+            self._parent = new_parent
             return
         
         # STEP 2: `new_parent` is an INAPPROPRIATE type
         raise TypeError("`new_parent` must be of TYPE `BSTNode` or `None`")
     
-    @p.deleter
-    def p(self):
-        del self._p
+    @parent.deleter
+    def parent(self):
+        del self._parent
 
     @property
-    def lc(self):
+    def left_child(self):
         """
         The LEFT CHILD of the BST node: has a key LESS than the parent key.
         """
-        return self._lc
+        return self._left_child
     
-    @lc.setter
-    def lc(self, lc):
+    @left_child.setter
+    def left_child(self, new_left_child):
 
-        # STEP 1: Ensure `lc` is of type `BSTNode` or `None`
-        if (isinstance(lc, BSTNode) or (lc is None)):
-            self._lc = lc
+        # STEP 1: Ensure `new_left_child` is of type `BSTNode` or `None`
+        if (isinstance(new_left_child, BSTNode) or (new_left_child is None)):
+            self._left_child = new_left_child
             return
         
-        # STEP 2: `lc` is an INAPPROPRIATE type
-        raise TypeError("`lc` must be of TYPE `BSTNode` or `None`")
+        # STEP 2: `new_left_child` is an INAPPROPRIATE type
+        raise TypeError("`new_left_child` must be of TYPE `BSTNode` or `None`")
 
-    @lc.deleter
-    def lc(self):
-        del self._lc   
+    @left_child.deleter
+    def left_child(self):
+        del self._left_child
 
     @property
-    def rc(self):
+    def right_child(self):
         """
         The RIGHT CHILD of the BST node: has a key GREATER or EQUAL to the 
         parent key.
         """
-        return self._rc
+        return self._right_child
     
-    @rc.setter
-    def rc(self, rc):
+    @right_child.setter
+    def right_child(self, new_right_child):
 
-        # STEP 1: Ensure `rc` is of type `BSTNode` or `None`
-        if (isinstance(rc, BSTNode) or (rc is None)):
-            self._rc = rc
+        # STEP 1: Ensure `new_right_child` is of type `BSTNode` or `None`
+        if (isinstance(new_right_child, BSTNode) or (new_right_child is None)):
+            self._right_child = new_right_child
             return
         
-        # STEP 2: `rc` is an INAPPROPRIATE type
-        raise TypeError("`rc` must be of TYPE `BSTNode` or `None`")
+        # STEP 2: `new_right_child` is an INAPPROPRIATE type
+        raise TypeError("`new_right_child` must be of TYPE `BSTNode` or `None`")
     
-    @rc.deleter
-    def rc(self):
-        del self._rc
+    @right_child.deleter
+    def right_child(self):
+        del self._right_child
 
 # ---------------------------------------------------------------------------- #
 
@@ -129,8 +129,8 @@ class BST(object):
             - 'v2': The 2nd variable for comparison
 
         :Return:
-            - `1`: if `v1` is GREATER than `v2` 
-            - `0`: if `v1` & `v2` are EQUAL
+            - `1`: if `v1` is GREATER than `v2`, OR
+            - `0`: if `v1` & `v2` are EQUAL, OR
             - `-1`: if `v1` is LESS than `v2` 
         """
         return self._cmp_fn
@@ -192,14 +192,14 @@ class BST(object):
 
             # CASE 2A: Traverse LEFT child, key is LESS
             if (self.cmp_fn(new_node.key, curr.key) == self.cmp_less):
-                curr = curr.lc
+                curr = curr.left_child
 
             # CASE 2B: Traverse RIGHT child, key is GREATER than or EQUAL
             else:
-                curr = curr.rc
+                curr = curr.right_child
 
         # STEP 3: Found a spot to insert into the BST, assign parent node
-        new_node.p = prev
+        new_node.parent = prev
 
         # STEP 4A: BST is EMPTY, insert at the ROOT
         if (prev is None):
@@ -207,11 +207,11 @@ class BST(object):
 
         # STEP 4B: Inserted node's key is LESS
         elif (self.cmp_fn(new_node.key, prev.key) == self.cmp_less):
-            prev.lc = new_node
+            prev.left_child = new_node
 
         # STEP 4C: Inserted node'skey is GREATER than or EQUAL to
         else:
-            prev.rc = new_node
+            prev.right_child = new_node
         return new_node
 
     def __recursive_insert(self, new_node, root, root_parent = None):
@@ -229,16 +229,16 @@ class BST(object):
         
         # BASE CASE: Traversed into an EMPTY slot in the BST
         if (root is None):
-            new_node.p = root_parent
+            new_node.parent = root_parent
             return new_node
         
         # RECURSIVE CASE 1: Traverse LEFT
         if (self.cmp_fn(new_node.key, root.key) == self.cmp_less):
-            root.lc = self.__recursive_insert(new_node, root.lc, root)
+            root.left_child = self.__recursive_insert(new_node, root.left_child, root)
         
         # RECURSIVE CASE 2: Traverse RIGHT
         else:
-            root.rc = self.__recursive_insert(new_node, root.rc, root)
+            root.right_child = self.__recursive_insert(new_node, root.right_child, root)
         return root
 
     def insert_node(self, new_key, mode = 'i'):
@@ -292,8 +292,8 @@ class BST(object):
         
         # STEP 2: Keep traversing the LEFT-most child provided one exists
         curr_node = root
-        while (curr_node.lc != None):
-            curr_node = curr_node.lc
+        while (curr_node.left_child != None):
+            curr_node = curr_node.left_child
         return curr_node
 
     def max_node(self, root):
@@ -313,8 +313,8 @@ class BST(object):
 
         # STEP 2: Keep traversing the RIGHT-most child provided one exists
         curr_node = root
-        while(curr_node.rc != None):
-            curr_node = curr_node.rc
+        while(curr_node.right_child != None):
+            curr_node = curr_node.right_child
         return curr_node
 
     def predecessor_node(self, node):
@@ -334,14 +334,14 @@ class BST(object):
             raise TypeError("`node` must be of TYPE `BSTNode`")
 
         # CASE A: Predecessor is one of the CHILD nodes of `node`
-        if (node.lc != None):
-            return self.max_node(node.lc)
+        if (node.left_child != None):
+            return self.max_node(node.left_child)
 
         # CASE B: Predecessor is one of the PARENT nodes of `node`
-        predecessor = node.p
-        while ((predecessor != None) and (node is predecessor.lc)):
+        predecessor = node.parent
+        while ((predecessor != None) and (node is predecessor.left_child)):
             node = predecessor
-            predecessor = predecessor.p
+            predecessor = predecessor.parent
         return predecessor
 
     def successor_node(self, node):
@@ -361,14 +361,14 @@ class BST(object):
             raise TypeError("`node` must be of TYPE `BSTNode`")
         
         # CASE A: Successor is one of the CHILD nodes of `node`
-        if (node.rc != None):
-            return self.min_node(node.rc)
+        if (node.right_child != None):
+            return self.min_node(node.right_child)
 
         # CASE B: Successor is one of the PARENT nodes of `node`
-        successor = node.p
-        while ((successor != None) and (node is successor.rc)):
+        successor = node.parent
+        while ((successor != None) and (node is successor.right_child)):
             node = successor
-            successor = successor.p
+            successor = successor.parent
         return successor
 
     def __transplant_node(self, node1, node2):
@@ -383,20 +383,20 @@ class BST(object):
         """
         
         # CASE A: Transplanting from the ROOT node
-        if (node1.p is None):
+        if (node1.parent is None):
             self.root = node2
         
         # CASE B: Transplanting from the LEFT subtree
-        elif (node1 is node1.p.lc):
-            node1.p.lc = node2
+        elif (node1 is node1.parent.left_child):
+            node1.parent.left_child = node2
 
         # CASE C: Transplanting from the RIGHT subtree
         else:
-            node1.p.rc = node2
+            node1.parent.right_child = node2
         
         # STEP 2: If `node2` replaced `node1` both have the SAME parent
         if (node2 != None):
-            node2.p = node1.p
+            node2.parent = node1.parent
 
     def delete_node(self, node):
         """
@@ -411,29 +411,29 @@ class BST(object):
             raise TypeError("`node` must be of TYPE `BSTNode`")
         
         # CASE A: `node` has ZERO child nodes (i.e. LEAF node)
-        elif (node.lc is None):
-            self.__transplant_node(node, node.rc)
+        elif (node.left_child is None):
+            self.__transplant_node(node, node.right_child)
 
         # CASE B: `node` has ONE child node
-        elif (node.rc is None):
-            self.__transplant_node(node, node.lc)
+        elif (node.right_child is None):
+            self.__transplant_node(node, node.left_child)
 
         # CASE C: `node` has TWO child nodes
         else:
 
             # STEP CI: Get the node to REPLACE the position of `node`
-            min_node = self.min_node(node.rc)
+            min_node = self.min_node(node.right_child)
 
             # STEP CII: Swap the position of `min_node` & it's parent node
-            if (min_node.p != node):
-                self.__transplant_node(min_node, min_node.rc)
-                min_node.rc = node.rc
-                min_node.rc.p = min_node
+            if (min_node.parent != node):
+                self.__transplant_node(min_node, min_node.right_child)
+                min_node.right_child = node.right_child
+                min_node.right_child.parent = min_node
             
             # STEP CIII: Replace `node` with `min_node`
             self.__transplant_node(node, min_node)
-            min_node.lc = node.lc
-            min_node.lc.p = min_node
+            min_node.left_child = node.left_child
+            min_node.left_child.parent = min_node
 
     def inorder_walk(self, root, operation = print):
         """
@@ -450,9 +450,9 @@ class BST(object):
 
         # Ensure the root exists to continue traversals
         if root:
-            self.inorder_walk(root.lc)
+            self.inorder_walk(root.left_child)
             operation(root.key)
-            self.inorder_walk(root.rc)
+            self.inorder_walk(root.right_child)
 
     def preorder_walk(self, root, operation = print):
         """
@@ -470,8 +470,8 @@ class BST(object):
         # Ensure the root exists to continue traversals
         if root:
             operation(root.key)
-            self.preorder_walk(root.lc)
-            self.preorder_walk(root.rc)
+            self.preorder_walk(root.left_child)
+            self.preorder_walk(root.right_child)
 
     def postorder_walk(self, root, operation = print):
         """
@@ -488,8 +488,8 @@ class BST(object):
 
         # Ensure the root exists to continue traversals
         if root:
-            self.postorder_walk(root.lc)
-            self.postorder_walk(root.rc)
+            self.postorder_walk(root.left_child)
+            self.postorder_walk(root.right_child)
             operation(root.key)
 
     def __iterative_search(self, target_key):
@@ -510,11 +510,11 @@ class BST(object):
 
             # CASE 1A: Traverse towards the LEFT child node
             if (self.cmp_fn(target_key, root.key) == self.cmp_less):
-                root = root.lc
+                root = root.left_child
 
             # CASE 1B: Traverse towards the RIGHT child node
             elif (self.cmp_fn(target_key, root.key) == self.cmp_greater):
-                root = root.rc
+                root = root.right_child
 
             # CASE 1C: Found a node with the SAME `target_key`
             else:
@@ -546,11 +546,11 @@ class BST(object):
         
         # RECURSIVE CASE 1: Traverse to RIGHT child
         elif (self.cmp_fn(root.key, root.key) == self.cmp_greater):
-            return self.__recursive_search(root.rc, target_key)
+            return self.__recursive_search(root.right_child, target_key)
         
         # RECURSIVE CASE 2: Traverse to LEFT child
         else:
-            return self.__recursive_search(root.lc, target_key)
+            return self.__recursive_search(root.left_child, target_key)
 
     def search(self, target_key, mode = 'i'):
         """
