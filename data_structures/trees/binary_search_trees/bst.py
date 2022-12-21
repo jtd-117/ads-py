@@ -571,11 +571,11 @@ class BST(object):
         if (not isinstance(mode, str)):
             raise TypeError("`mode` must of TYPE `str`")
         
-        # CASE B:
+        # CASE B: Perform the search ITERATIVELY
         elif (mode == 'i'):
             return self.__iterative_search(target_key)
 
-        # CASE C: 
+        # CASE C: Perform the search RECURSIVELY
         elif (mode == 'r'):
             return self.__recursive_search(self.root, target_key)
 
