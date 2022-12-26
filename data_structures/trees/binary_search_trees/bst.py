@@ -4,98 +4,7 @@
 # @note     GitHub: https://github.com/jtd-117
 # ---------------------------------------------------------------------------- #
 
-class BSTNode(object):
-    """
-    A NODE for a binary search tree (BST).
-    """
-
-    def __init__(self, key):
-        self._key = key
-        self._parent = None
-        self._left_child = None
-        self._right_child = None
-  
-    @property
-    def key(self):
-        """
-        The INFORMATION associated with the BST node.
-        """
-        return self._key
-    
-    @key.setter
-    def key(self, new_key):
-        self._key = new_key
-
-    @key.deleter
-    def key(self):
-        del self._key
-
-    @property
-    def parent(self):
-        """
-        The PARENT node of the current BST node.
-        """
-        return self._parent
-
-    @parent.setter
-    def parent(self, new_parent):
-
-        # STEP 1: Ensure `new_parent` is of type `BSTNode` or `None`
-        if (isinstance(new_parent, BSTNode) or (new_parent is None)):
-            self._parent = new_parent
-            return
-        
-        # STEP 2: `new_parent` is an INAPPROPRIATE type
-        raise TypeError("`new_parent` must be of TYPE `BSTNode` or `None`")
-    
-    @parent.deleter
-    def parent(self):
-        del self._parent
-
-    @property
-    def left_child(self):
-        """
-        The LEFT CHILD of the BST node: has a key LESS than the parent key.
-        """
-        return self._left_child
-    
-    @left_child.setter
-    def left_child(self, new_left_child):
-
-        # STEP 1: Ensure `new_left_child` is of type `BSTNode` or `None`
-        if (isinstance(new_left_child, BSTNode) or (new_left_child is None)):
-            self._left_child = new_left_child
-            return
-        
-        # STEP 2: `new_left_child` is an INAPPROPRIATE type
-        raise TypeError("`new_left_child` must be of TYPE `BSTNode` or `None`")
-
-    @left_child.deleter
-    def left_child(self):
-        del self._left_child
-
-    @property
-    def right_child(self):
-        """
-        The RIGHT CHILD of the BST node: has a key GREATER or EQUAL to the 
-        parent key.
-        """
-        return self._right_child
-    
-    @right_child.setter
-    def right_child(self, new_right_child):
-
-        # STEP 1: Ensure `new_right_child` is of type `BSTNode` or `None`
-        if (isinstance(new_right_child, BSTNode) or (new_right_child is None)):
-            self._right_child = new_right_child
-            return
-        
-        # STEP 2: `new_right_child` is an INAPPROPRIATE type
-        raise TypeError("`new_right_child` must be of TYPE `BSTNode` or `None`")
-    
-    @right_child.deleter
-    def right_child(self):
-        del self._right_child
+from enum import Enum
 
 # ---------------------------------------------------------------------------- #
 
@@ -104,10 +13,108 @@ class BST(object):
     An INTERFACE for a binary search tree (BST).
     """
 
-    # CLASS ATTRIBUTES:
-    cmp_greater = 1
-    cmp_equal = 0
-    cmp_less = -1
+    class CMPValues(Enum):
+        """
+        The OUTPUT values permitted by `cmp_fn`, a COMPARISON function that 
+        takes 2 variables & outputs which of the variables is less than, equal 
+        to, or greater than the other.
+        """
+        LESS = -1
+        EQUAL = 0
+        GREATER = 1
+
+    class Node(object):
+        """
+        A NODE for a binary search tree (BST).
+        """
+
+        def __init__(self, key):
+            self._key = key
+            self._parent = None
+            self._left_child = None
+            self._right_child = None
+    
+        @property
+        def key(self):
+            """
+            The INFORMATION associated with the BST node.
+            """
+            return self._key
+        
+        @key.setter
+        def key(self, new_key):
+            self._key = new_key
+
+        @key.deleter
+        def key(self):
+            del self._key
+
+        @property
+        def parent(self):
+            """
+            The PARENT node of the current BST node.
+            """
+            return self._parent
+
+        @parent.setter
+        def parent(self, new_parent):
+
+            # STEP 1: Ensure `new_parent` is of type `BST.Node` or `None`
+            if (isinstance(new_parent, BST.Node) or (new_parent is None)):
+                self._parent = new_parent
+                return
+            
+            # STEP 2: `new_parent` is an INAPPROPRIATE type
+            raise TypeError("`new_parent` must be of TYPE `BST.Node` or `None`")
+        
+        @parent.deleter
+        def parent(self):
+            del self._parent
+
+        @property
+        def left_child(self):
+            """
+            The LEFT CHILD of the BST node: has a key LESS than the parent key.
+            """
+            return self._left_child
+        
+        @left_child.setter
+        def left_child(self, new_left_child):
+
+            # STEP 1: Ensure `new_left_child` is of type `BST.Node` or `None`
+            if (isinstance(new_left_child, BST.Node) or (new_left_child is None)):
+                self._left_child = new_left_child
+                return
+            
+            # STEP 2: `new_left_child` is an INAPPROPRIATE type
+            raise TypeError("`new_left_child` must be of TYPE `BST.Node` or `None`")
+
+        @left_child.deleter
+        def left_child(self):
+            del self._left_child
+
+        @property
+        def right_child(self):
+            """
+            The RIGHT CHILD of the BST node: has a key GREATER or EQUAL to the 
+            parent key.
+            """
+            return self._right_child
+        
+        @right_child.setter
+        def right_child(self, new_right_child):
+
+            # STEP 1: Ensure `new_right_child` is of type `BST.Node` or `None`
+            if (isinstance(new_right_child, BST.Node) or (new_right_child is None)):
+                self._right_child = new_right_child
+                return
+            
+            # STEP 2: `new_right_child` is an INAPPROPRIATE type
+            raise TypeError("`new_right_child` must be of TYPE `BST.Node` or `None`")
+        
+        @right_child.deleter
+        def right_child(self):
+            del self._right_child
 
     def __init__(self, cmp_fn):
 
@@ -122,7 +129,7 @@ class BST(object):
     @property
     def cmp_fn(self):
         """
-        A custom function for COMPARING `BSTNode` keys.
+        A custom function for COMPARING `BST.Node` keys.
 
         :Parameters:
             - 'v1': The 1st variable for comparison
@@ -159,13 +166,13 @@ class BST(object):
     @root.setter
     def root(self, new_root):
 
-        # STEP 1: Ensure `new_root` is of type `BSTNode` or `None`
-        if (isinstance(new_root, BSTNode) or (new_root is None)):
+        # STEP 1: Ensure `new_root` is of type `BST.Node` or `None`
+        if (isinstance(new_root, BST.Node) or (new_root is None)):
             self._root = new_root
             return
         
         # STEP 2: `new_root` is an INAPPROPRIATE type
-        raise TypeError("`new_root` must be of TYPE `BSTNode` or `None`")
+        raise TypeError("`new_root` must be of TYPE `BST.Node` or `None`")
 
     @root.deleter
     def root(self):
@@ -191,7 +198,7 @@ class BST(object):
             prev = curr
 
             # CASE 2A: Traverse LEFT child, key is LESS
-            if (self.cmp_fn(new_node.key, curr.key) == self.cmp_less):
+            if (self.cmp_fn(new_node.key, curr.key) == BST.CMPValues.LESS.value):
                 curr = curr.left_child
 
             # CASE 2B: Traverse RIGHT child, key is GREATER than or EQUAL
@@ -206,7 +213,7 @@ class BST(object):
             self._root = new_node
 
         # STEP 4B: Inserted node's key is LESS
-        elif (self.cmp_fn(new_node.key, prev.key) == self.cmp_less):
+        elif (self.cmp_fn(new_node.key, prev.key) == BST.CMPValues.LESS.value):
             prev.left_child = new_node
 
         # STEP 4C: Inserted node'skey is GREATER than or EQUAL to
@@ -233,7 +240,7 @@ class BST(object):
             return new_node
         
         # RECURSIVE CASE 1: Traverse LEFT
-        if (self.cmp_fn(new_node.key, root.key) == self.cmp_less):
+        if (self.cmp_fn(new_node.key, root.key) == BST.CMPValues.LESS.value):
             root.left_child = self.__recursive_insert(new_node, root.left_child, root)
         
         # RECURSIVE CASE 2: Traverse RIGHT
@@ -256,7 +263,7 @@ class BST(object):
         """
         
         # STEP 1: Initialise the NEW node to be inserted into the BST
-        new_node = BSTNode(new_key)
+        new_node = BST.Node(new_key)
 
         # CASE A: `mode` is an inappropriate TYPE
         if (not isinstance(mode, str)):
@@ -287,8 +294,8 @@ class BST(object):
         """
 
         # STEP 1: Ensure the `root` is a valid BST node
-        if (not isinstance(root, BSTNode)):
-            raise TypeError("`root` must be of TYPE `BSTNode`")
+        if (not isinstance(root, BST.Node)):
+            raise TypeError("`root` must be of TYPE `BST.Node`")
         
         # STEP 2: Keep traversing the LEFT-most child provided one exists
         curr_node = root
@@ -308,8 +315,8 @@ class BST(object):
         """
         
         # STEP 1: Ensure the `root` is a valid BST node
-        if (not isinstance(root, BSTNode)):
-            raise TypeError("`root` must be of TYPE `BSTNode`")
+        if (not isinstance(root, BST.Node)):
+            raise TypeError("`root` must be of TYPE `BST.Node`")
 
         # STEP 2: Keep traversing the RIGHT-most child provided one exists
         curr_node = root
@@ -329,9 +336,9 @@ class BST(object):
             - `None`: if NO predecessor exists
         """
         
-        # STEP 1: Ensure `node` is of TYPE `BSTNode`
-        if ((not isinstance(node, BSTNode)) or (node is None)):
-            raise TypeError("`node` must be of TYPE `BSTNode`")
+        # STEP 1: Ensure `node` is of TYPE `BST.Node`
+        if ((not isinstance(node, BST.Node)) or (node is None)):
+            raise TypeError("`node` must be of TYPE `BST.Node`")
 
         # CASE A: Predecessor is one of the CHILD nodes of `node`
         if (node.left_child != None):
@@ -356,9 +363,9 @@ class BST(object):
             - `None`: if NO successor exists
         """
 
-        # STEP 1: Ensure `node` is of TYPE `BSTNode`
-        if ((not isinstance(node, BSTNode)) or (node is None)):
-            raise TypeError("`node` must be of TYPE `BSTNode`")
+        # STEP 1: Ensure `node` is of TYPE `BST.Node`
+        if ((not isinstance(node, BST.Node)) or (node is None)):
+            raise TypeError("`node` must be of TYPE `BST.Node`")
         
         # CASE A: Successor is one of the CHILD nodes of `node`
         if (node.right_child != None):
@@ -406,9 +413,9 @@ class BST(object):
             - `node`: the BST node to be deleted
         """
 
-        # STEP 1: Ensure `node` is of type `BSTNode`
-        if (not isinstance(node, BSTNode)):
-            raise TypeError("`node` must be of TYPE `BSTNode`")
+        # STEP 1: Ensure `node` is of type `BST.Node`
+        if (not isinstance(node, BST.Node)):
+            raise TypeError("`node` must be of TYPE `BST.Node`")
         
         # CASE A: `node` has ZERO child nodes (i.e. LEAF node)
         elif (node.left_child is None):
@@ -509,11 +516,11 @@ class BST(object):
         while (root != None):
 
             # CASE 1A: Traverse towards the LEFT child node
-            if (self.cmp_fn(target_key, root.key) == self.cmp_less):
+            if (self.cmp_fn(target_key, root.key) == BST.CMPValues.LESS.value):
                 root = root.left_child
 
             # CASE 1B: Traverse towards the RIGHT child node
-            elif (self.cmp_fn(target_key, root.key) == self.cmp_greater):
+            elif (self.cmp_fn(target_key, root.key) == BST.CMPValues.GREATER.value):
                 root = root.right_child
 
             # CASE 1C: Found a node with the SAME `target_key`
@@ -541,11 +548,11 @@ class BST(object):
             return None
         
         # BASE CASE 2: `target_key` has been FOUND
-        elif (self.cmp_fn(root.key, target_key) == self.cmp_equal):
+        elif (self.cmp_fn(root.key, target_key) == BST.CMPValues.EQUAL.value):
             return root
         
         # RECURSIVE CASE 1: Traverse to RIGHT child
-        elif (self.cmp_fn(root.key, root.key) == self.cmp_greater):
+        elif (self.cmp_fn(root.key, root.key) == BST.CMPValues.GREATER.value):
             return self.__recursive_search(root.right_child, target_key)
         
         # RECURSIVE CASE 2: Traverse to LEFT child

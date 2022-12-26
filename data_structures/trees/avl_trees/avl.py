@@ -5,92 +5,7 @@
 #           Reference: https://www.programiz.com/dsa/avl-tree
 # ---------------------------------------------------------------------------- #
 
-class AVLNode(object):
-    """
-    A NODE for an AVL tree.
-    """
-
-    def __init__(self, key):
-        self._key = key
-        self._height = 1
-        self._left_child = None
-        self._right_child = None
-    
-    @property
-    def key(self):
-        """
-        The INFORMATION associated with the AVL node.
-        """
-        return self._key
-
-    @key.setter
-    def key(self, new_key):
-        self._key = new_key
-    
-    @key.deleter
-    def key(self):
-        del self._key
-
-    @property
-    def height(self):
-        """
-        HEIGHT is the number of nodes between a given root node & the farthest 
-        lead node.
-        """
-        return self._height
-
-    @height.setter
-    def height(self, new_height):
-        self._height = new_height
-
-    @height.deleter
-    def height(self):
-        del self._height
-    
-    @property
-    def left_child(self):
-        """
-        The LEFT CHILD of the AVL node: has a key LESS than the parent key.
-        """
-        return self._left_child
-    
-    @left_child.setter
-    def left_child(self, new_left_child):
-
-        # STEP 1: Ensure `new_left_child` is of type `AVLNode` or `None`
-        if (isinstance(new_left_child, AVLNode) or (new_left_child is None)):
-            self._left_child = new_left_child
-            return
-        
-        # STEP 2: `new_left_child` is an INAPPROPRIATE type
-        raise TypeError("`new_left_child` must be of TYPE `AVLNode` or `None`")
-
-    @left_child.deleter
-    def left_child(self):
-        del self._left_child
-
-    @property
-    def right_child(self):
-        """
-        The RIGHT CHILD of the AVL node: has a key GREATER or EQUAL to the 
-        parent key.
-        """
-        return self._right_child
-    
-    @right_child.setter
-    def right_child(self, new_right_child):
-
-        # STEP 1: Ensure `new_right_child` is of type `AVLNode` or `None`
-        if (isinstance(new_right_child, AVLNode) or (new_right_child is None)):
-            self._right_child = new_right_child
-            return
-        
-        # STEP 2: `new_right_child` is an INAPPROPRIATE type
-        raise TypeError("`new_right_child` must be of TYPE `AVLNode` or `None`")
-    
-    @right_child.deleter
-    def right_child(self):
-        del self._right_child
+from enum import Enum
 
 # ---------------------------------------------------------------------------- #
 
@@ -99,13 +14,111 @@ class AVL(object):
     An INTERFACE for an AVL tree.
     """
 
-    # AVL ATTRIBUTES:
-    cmp_greater = 1
-    cmp_equal = 0
-    cmp_less = -1
-    bf_left = 1
-    bf_equal = 0
-    bf_right = -1
+    class CMPValues(Enum):
+        """
+        The OUTPUT values permitted by `cmp_fn`, a COMPARISON function that 
+        takes 2 variables & outputs which of the variables is less than, equal 
+        to, or greater than the other.
+        """
+        LESS = -1
+        EQUAL = 0
+        GREATER = 1
+
+    class BFValues(Enum):
+        """
+        BALANCE FACTOR values that indicate whether the LEFT or RIGHT subtrees 
+        are taller or equal in height.
+        """
+        RIGHT = -1
+        EQUAL = 0
+        LEFT = 1
+    
+    class Node(object):
+        """
+        A NODE for an AVL tree.
+        """
+
+        def __init__(self, key):
+            self._key = key
+            self._height = 1
+            self._left_child = None
+            self._right_child = None
+        
+        @property
+        def key(self):
+            """
+            The INFORMATION associated with the AVL node.
+            """
+            return self._key
+
+        @key.setter
+        def key(self, new_key):
+            self._key = new_key
+        
+        @key.deleter
+        def key(self):
+            del self._key
+
+        @property
+        def height(self):
+            """
+            HEIGHT is the number of nodes between a given root node & the farthest 
+            lead node.
+            """
+            return self._height
+
+        @height.setter
+        def height(self, new_height):
+            self._height = new_height
+
+        @height.deleter
+        def height(self):
+            del self._height
+        
+        @property
+        def left_child(self):
+            """
+            The LEFT CHILD of the AVL node: has a key LESS than the parent key.
+            """
+            return self._left_child
+        
+        @left_child.setter
+        def left_child(self, new_left_child):
+
+            # STEP 1: Ensure `new_left_child` is of type `AVL.Node` or `None`
+            if (isinstance(new_left_child, AVL.Node) or (new_left_child is None)):
+                self._left_child = new_left_child
+                return
+            
+            # STEP 2: `new_left_child` is an INAPPROPRIATE type
+            raise TypeError("`new_left_child` must be of TYPE `AVL.Node` or `None`")
+
+        @left_child.deleter
+        def left_child(self):
+            del self._left_child
+
+        @property
+        def right_child(self):
+            """
+            The RIGHT CHILD of the AVL node: has a key GREATER or EQUAL to the 
+            parent key.
+            """
+            return self._right_child
+        
+        @right_child.setter
+        def right_child(self, new_right_child):
+
+            # STEP 1: Ensure `new_right_child` is of type `AVL.Node` or `None`
+            if (isinstance(new_right_child, AVL.Node) or (new_right_child is None)):
+                self._right_child = new_right_child
+                return
+            
+            # STEP 2: `new_right_child` is an INAPPROPRIATE type
+            raise TypeError("`new_right_child` must be of TYPE `AVL.Node` or `None`")
+        
+        @right_child.deleter
+        def right_child(self):
+            del self._right_child
 
     def __init__(self, cmp_fn):
 
@@ -120,7 +133,7 @@ class AVL(object):
     @property
     def cmp_fn(self):
         """
-        A custom function for COMPARING `AVLNode` keys.
+        A custom function for COMPARING `AVL.Node` keys.
 
         :Parameters:
             - 'v1': The 1st variable for comparison
@@ -157,13 +170,13 @@ class AVL(object):
     @root.setter
     def root(self, new_root):
 
-        # STEP 1: Ensure `new_root` is of type `AVLNode` or `None`
-        if (isinstance(new_root, AVLNode) or (new_root is None)):
+        # STEP 1: Ensure `new_root` is of type `AVL.Node` or `None`
+        if (isinstance(new_root, AVL.Node) or (new_root is None)):
             self._root = new_root
             return
         
         # STEP 2: `new_root` is an INAPPROPRIATE type
-        raise TypeError("`new_root` must be of TYPE `AVLNode` or `None`")
+        raise TypeError("`new_root` must be of TYPE `AVL.Node` or `None`")
 
     @root.deleter
     def root(self):
@@ -185,8 +198,8 @@ class AVL(object):
             return 0
 
         # CASE B: Node is an inappropriate type:
-        elif (not isinstance(node, AVLNode)):
-            raise TypeError("`node` must be of TYPE `AVLNode`")
+        elif (not isinstance(node, AVL.Node)):
+            raise TypeError("`node` must be of TYPE `AVL.Node`")
     
         # CASE C: Return the height of the node
         return node.height
@@ -208,8 +221,8 @@ class AVL(object):
             return 0
 
         # CASE B: Node is an inappropriate type:
-        elif (not isinstance(node, AVLNode)):
-            raise TypeError("`node` must be of TYPE `AVLNode`")
+        elif (not isinstance(node, AVL.Node)):
+            raise TypeError("`node` must be of TYPE `AVL.Node`")
         
         # CASE C: Calculate the balance factor
         return (self.__node_height(node.left_child) 
@@ -294,8 +307,8 @@ class AVL(object):
 
         # STEP 1: Find the location to insert new node & calculate it's height
         if not root:
-            return AVLNode(key)
-        elif (self.cmp_fn(key, root.key) == self.cmp_less):
+            return AVL.Node(key)
+        elif (self.cmp_fn(key, root.key) == AVL.CMPValues.LESS.value):
             root.left_child = self.__recursive_insert(root.left_child, key)
         else:
             root.right_child = self.__recursive_insert(root.right_child, key)
@@ -306,7 +319,7 @@ class AVL(object):
         balance_factor = self.__balance_factor(root)
 
         # CASE 2A: Height of the LEFT subtree > RIGHT subtree
-        if (balance_factor > self.bf_left):
+        if (balance_factor > AVL.BFValues.LEFT.value):
 
             # CASE 2AI: Inserted via RIGHT child (i.e. inside roation), 
             #           1 rotation needed (i.e. right rotate)
@@ -320,7 +333,7 @@ class AVL(object):
                 return self.__right_rotate(root)
 
         # CASE 2B: Height of the LEFT subtree < RIGHT subtree
-        if (balance_factor < self.bf_right):
+        if (balance_factor < AVL.BFValues.RIGHT.value):
 
             # CASE 2BI: Inserted via RIGHT child (i.e. inside roation), 
             #           1 rotation needed (i.e. left rotate)
@@ -346,8 +359,8 @@ class AVL(object):
         """
         
         # STEP 1: Ensure the `root` is a valid AVL node
-        if (not isinstance(root, AVLNode)):
-            raise TypeError("`root` must be of TYPE `AVLNode`")
+        if (not isinstance(root, AVL.Node)):
+            raise TypeError("`root` must be of TYPE `AVL.Node`")
         
         # STEP 2: Keep traversing the LEFT-most child provided one exists
         curr_node = root
@@ -367,8 +380,8 @@ class AVL(object):
         """
 
         # STEP 1: Ensure the `root` is a valid AVL node
-        if (not isinstance(root, AVLNode)):
-            raise TypeError("`root` must be of TYPE `AVLNode`")
+        if (not isinstance(root, AVL.Node)):
+            raise TypeError("`root` must be of TYPE `AVL.Node`")
 
         # STEP 2: Keep traversing the RIGHT-most child provided one exists
         curr_node = root
@@ -393,8 +406,8 @@ class AVL(object):
             return None
 
         # STEP 2: node is an inappropriate type
-        if (not isinstance(node, AVLNode)):
-            raise TypeError("`node` must be of TYPE `AVLNode`")
+        if (not isinstance(node, AVL.Node)):
+            raise TypeError("`node` must be of TYPE `AVL.Node`")
 
         # STEP 3: Initialise the root node to search
         parent_node = None
@@ -402,11 +415,11 @@ class AVL(object):
         while True:
 
             # STEP 3A: `curr_node` is NOT the predecessor upon LEFT traversal
-            if (self.cmp_fn(node.key, curr_node.key) == self.cmp_less):
+            if (self.cmp_fn(node.key, curr_node.key) == AVL.CMPValues.LESS.value):
                 curr_node = curr_node.left_child
 
             # STEP 3B: `curr_node` MIGHT be the predecessor upon RIGHT traversal
-            elif (self.cmp_fn(node.key, curr_node.key) == self.cmp_greater):
+            elif (self.cmp_fn(node.key, curr_node.key) == AVL.CMPValues.GREATER):
                 parent_node = curr_node
                 curr_node = curr_node.right_child
 
@@ -441,8 +454,8 @@ class AVL(object):
             return None
 
         # STEP 2: node is an inappropriate type
-        if (not isinstance(node, AVLNode)):
-            raise TypeError("`node` must be of TYPE `AVLNode`")
+        if (not isinstance(node, AVL.Node)):
+            raise TypeError("`node` must be of TYPE `AVL.Node`")
 
         # STEP 3: Initialise the root node to search
         parent_node = None
@@ -450,12 +463,12 @@ class AVL(object):
         while True:
 
             # STEP 3A: `curr_node` MIGHT be the successor upon LEFT traversal
-            if (self.cmp_fn(node.key, curr_node.key) == self.cmp_less):
+            if (self.cmp_fn(node.key, curr_node.key) == AVL.CMPValues.LESS.value):
                 parent_node = curr_node
                 curr_node = curr_node.left_child
 
             # STEP 3B: `curr_node` is NOT the successor upon RIGHT traversal
-            elif (self.cmp_fn(node.key, curr_node.key) == self.cmp_less):
+            elif (self.cmp_fn(node.key, curr_node.key) == AVL.CMPValues.GREATER.value):
                 curr_node = curr_node
 
             # STEP 3C: MATCHING keys ensures successor is the MIN node of the 
@@ -485,10 +498,10 @@ class AVL(object):
         if (not root):
             return root
 
-        elif (self.cmp_fn(key, root.key) == self.cmp_less):
+        elif (self.cmp_fn(key, root.key) == AVL.CMPValues.LESS.value):
             root.left_child = self.delete_node(root.left_child, key)
 
-        elif (self.cmp_fn(key, root.key) == self.cmp_greater):
+        elif (self.cmp_fn(key, root.key) == AVL.CMPValues.GREATER.value):
             root.right_child = self.delete_node(root.right_child, key)
 
         else:
@@ -520,10 +533,10 @@ class AVL(object):
         balance_factor = self.__balance_factor(root)
 
         # CASE 5A: Need to balance the LEFT subtree
-        if (balance_factor > self.bf_left):
+        if (balance_factor > AVL.BFValues.LEFT.value):
             
             # CASE 5AI: LEFT subtree outside rotation
-            if (self.__balance_factor(root.left_child) >= self.bf_equal):
+            if (self.__balance_factor(root.left_child) >= AVL.BFValues.EQUAL.value):
                 return self.__right_rotate(root)
 
             # CASE 5AII: LEFT subtree inside rotation
@@ -532,10 +545,10 @@ class AVL(object):
                 return self.__right_rotate(root)
 
         # CASE 5B: Need to balance the RIGHT subtree
-        if (balance_factor < self.bf_right):
+        if (balance_factor < AVL.BFValues.RIGHT.value):
             
             # CASE 5BI: RIGHT subtree outside rotation
-            if (self.__balance_factor(root.right_child) <= self.bf_equal):
+            if (self.__balance_factor(root.right_child) <= AVL.BFValues.EQUAL.value):
                 return self.__left_rotate(root)
 
             # CASE 5BII: RIGHT subtree inside rotation
@@ -618,11 +631,11 @@ class AVL(object):
         while curr:
 
             # STEP 1A: `target_key` is LARGER (i.e. traverse to RIGHT)
-            if (self.cmp_fn(target_key, curr.key) == self.cmp_greater):
+            if (self.cmp_fn(target_key, curr.key) == AVL.CMPValues.GREATER.value):
                 curr = curr.right_child
 
             # STEP 1B: `target_key` is SMALLER (i.e. traverse to LEFT)
-            elif (self.cmp_fn(target_key, curr.key) == self.cmp_less):
+            elif (self.cmp_fn(target_key, curr.key) == AVL.CMPValues.LESS.value):
                 curr = curr.left_child
             
             # STEP 1C: Found a match
@@ -650,11 +663,11 @@ class AVL(object):
             return None
 
         # BASE CASE 2: Match found
-        elif (self.cmp_fn(target_key, root.key) == self.cmp_equal):
+        elif (self.cmp_fn(target_key, root.key) == AVL.CMPValues.EQUAL.value):
             return root
 
         # RECURSIVE CASE 1: `target_key` is LARGER (i.e. traverse to RIGHT)
-        elif (self.cmp_fn(target_key, root.key) == self.cmp_greater):
+        elif (self.cmp_fn(target_key, root.key) == AVL.CMPValues.GREATER.value):
             return self.__recursive_search(root.right_child, target_key)
 
         # RECURSIVE CASE 2: `target_key` is SMALLER (i.e. traverse to LEFT)

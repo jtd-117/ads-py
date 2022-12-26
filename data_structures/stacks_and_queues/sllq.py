@@ -4,51 +4,7 @@
 # @note     GitHub: https://github.com/jtd-117
 # ---------------------------------------------------------------------------- #
 
-class SLLNode(object):
-    """
-    A Singly Linked-List (SLL) node.
-    """
-
-    def __init__(self, key):
-        self._key = key
-        self._next = None
-
-    @property
-    def key(self):
-        """
-        Contains the DATA associated with an SLL node.
-        """
-        return self._key
-
-    @key.setter
-    def key(self, new_key):
-        self._key = new_key
-    
-    @key.deleter
-    def key(self):
-        del self._key
-    
-    @property
-    def next(self):
-        """
-        A POINTER to an SLL successor node.
-        """
-        return self._next
-
-    @next.setter
-    def next(self, new_next):
-
-        # STEP 1: Ensure the `new_next` is of TYPE `SLLNode` or `None`
-        if (isinstance(new_next, SLLNode) or (new_next is None)):
-            self._next = new_next
-            return
-        
-        # STEP 2: `new_next` is an INAPPROPRIATE type
-        raise TypeError("`new_next` must be of TYPE `SLLNode` or `None`")
-    
-    @next.deleter
-    def next(self):
-        del self._next
+from enum import Enum
 
 # ---------------------------------------------------------------------------- #
 
@@ -57,10 +13,61 @@ class SLLQ(object):
     An INTERFACE for a singly linked-list queue (SLLQ).
     """
 
-    # SLLQ ATTRIBUTES:
-    cmp_greater = 1
-    cmp_equal = 0
-    cmp_less = -1
+    class CMPValues(Enum):
+        """
+        The OUTPUT values permitted by `cmp_fn`, a COMPARISON function that 
+        takes 2 variables & outputs which of the variables is less than, equal 
+        to, or greater than the other.
+        """
+        LESS = -1
+        EQUAL = 0
+        GREATER = 1
+
+    class Node(object):
+        """
+        A Singly Linked-List (SLL) node.
+        """
+
+        def __init__(self, key):
+            self._key = key
+            self._next = None
+
+        @property
+        def key(self):
+            """
+            Contains the DATA associated with an SLL node.
+            """
+            return self._key
+
+        @key.setter
+        def key(self, new_key):
+            self._key = new_key
+        
+        @key.deleter
+        def key(self):
+            del self._key
+        
+        @property
+        def next(self):
+            """
+            A POINTER to an SLL successor node.
+            """
+            return self._next
+
+        @next.setter
+        def next(self, new_next):
+
+            # STEP 1: Ensure the `new_next` is of TYPE `SLLQ.Node` or `None`
+            if (isinstance(new_next, SLLQ.Node) or (new_next is None)):
+                self._next = new_next
+                return
+            
+            # STEP 2: `new_next` is an INAPPROPRIATE type
+            raise TypeError("`new_next` must be of TYPE `SLLQ.Node` or `None`")
+        
+        @next.deleter
+        def next(self):
+            del self._next
 
     def __init__(self, cmp_fn):
 
@@ -76,7 +83,7 @@ class SLLQ(object):
     @property
     def cmp_fn(self):
         """
-        A custom function for COMPARING `BSTNode` keys.
+        A custom function for COMPARING `SLLQ.Node` keys.
 
         :Parameters:
             - 'v1': The 1st variable for comparison
@@ -113,13 +120,13 @@ class SLLQ(object):
     @head.setter
     def head(self, new_head):
 
-        # STEP 1: Ensure the `new_head` is of TYPE `SLLNode` or `None`
-        if (isinstance(new_head, SLLNode) or (new_head is None)):
+        # STEP 1: Ensure the `new_head` is of TYPE `SLLQ.Node` or `None`
+        if (isinstance(new_head, SLLQ.Node) or (new_head is None)):
             self._head = new_head
             return
         
         # STEP 2: `new_head` is an INAPPROPRIATE type
-        raise TypeError("`new_head` must be of TYPE `SLLNode` or `None`")
+        raise TypeError("`new_head` must be of TYPE `SLLQ.Node` or `None`")
     
     @head.deleter
     def head(self):
@@ -135,13 +142,13 @@ class SLLQ(object):
     @tail.setter
     def tail(self, new_tail):
 
-        # STEP 1: Ensure the `new_tail` is of TYPE `SLLNode` or `None`
-        if (isinstance(new_tail, SLLNode) or (new_tail is None)):
+        # STEP 1: Ensure the `new_tail` is of TYPE `SLLQ.Node` or `None`
+        if (isinstance(new_tail, SLLQ.Node) or (new_tail is None)):
             self._tail = new_tail
             return
         
         # STEP 2: `new_tail` is an INAPPROPRIATE type
-        raise TypeError("`new_tail` must be of TYPE `SLLNode` or `None`")
+        raise TypeError("`new_tail` must be of TYPE `SLLQ.Node` or `None`")
     
     @tail.deleter
     def tail(self):
@@ -170,7 +177,7 @@ class SLLQ(object):
         """
         
         # STEP 1: Initialise the new TAIL node & POINTER variables
-        new_tail = SLLNode(new_key)
+        new_tail = SLLQ.Node(new_key)
 
         # CASE A: 1st insertion into the SLLQ
         if (self.tail == None):
@@ -230,7 +237,7 @@ class SLLQ(object):
         while (curr):
 
             # STEP 3: Check if the current node's key MATCHES the target key
-            if (self.cmp_fn(curr.key, target_key) == self.cmp_equal):
+            if (self.cmp_fn(curr.key, target_key) == SLLQ.CMPValues.EQUAL.value):
                 return curr
 
             # STEP 4: Move to the next node
@@ -258,7 +265,7 @@ class SLLQ(object):
             return None
         
         # BASE CASE 2: Found a match
-        if (self.cmp_fn(self_head.key, target_key) == self.cmp_equal):
+        if (self.cmp_fn(self_head.key, target_key) == SLLQ.CMPValues.EQUAL.value):
             return self_head
 
         # RECURSIVE CASE: Still more SLL nodes to search

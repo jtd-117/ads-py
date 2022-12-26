@@ -4,74 +4,7 @@
 # @note     GitHub: https://github.com/jtd-117
 # ---------------------------------------------------------------------------- #
 
-class DLLNode(object):
-    """
-    A Doubly Linked-List (DLL) node.
-    """
-
-    def __init__(self, key):
-        self._key = key
-        self._next = None
-        self._prev = None
-
-    @property
-    def key(self):
-        """
-        Contains the DATA associated with an DLL node.
-        """
-        return self._key
-
-    @key.setter
-    def key(self, new_key):
-        self._key = new_key
-    
-    @key.deleter
-    def key(self):
-        del self._key
-    
-    @property
-    def next(self):
-        """
-        A POINTER to a DLL successor node.
-        """
-        return self._next
-
-    @next.setter
-    def next(self, new_next):
-
-        # STEP 1: Ensure the `new_next` is of type `DLLNode` or `None`
-        if (isinstance(new_next, DLLNode) or (new_next is None)):
-            self._next = new_next
-            return
-        
-        # STEP 2: `new_next` is an INAPPROPRIATE type
-        raise TypeError("`new_next` must be of TYPE `DLLNode` or `None`")
-    
-    @next.deleter
-    def next(self):
-        del self._next
-    
-    @property
-    def prev(self):
-        """
-        A POINTER to a DLL predecessor node.
-        """
-        return self._prev
-
-    @prev.setter
-    def prev(self, new_prev):
-
-        # STEP 1: Ensure the `new_prev` is type `DLLNode` or `None`
-        if (isinstance(new_prev, DLLNode) or (new_prev is None)):
-            self._prev = new_prev
-            return
-        
-        # STEP 2: `new_prev` is an INAPPROPRIATE type
-        raise TypeError("`new_prev` must be of TYPE `DLLNode` or `None`")
-    
-    @prev.deleter
-    def prev(self):
-        del self._prev
+from enum import Enum
 
 # ---------------------------------------------------------------------------- #
 
@@ -80,10 +13,84 @@ class DLLS(object):
     An INTERFACE for a doubly linked-list stack (DLLS)
     """
 
-    # DLLS ATTRIBUTES:
-    cmp_greater = 1
-    cmp_equal = 0
-    cmp_less = -1
+    class CMPValues(Enum):
+        """
+        The OUTPUT values permitted by `cmp_fn`, a COMPARISON function that 
+        takes 2 variables & outputs which of the variables is less than, equal 
+        to, or greater than the other.
+        """
+        LESS = -1
+        EQUAL = 0
+        GREATER = 1
+
+    class Node(object):
+        """
+        A Doubly Linked-List (DLL) node.
+        """
+
+        def __init__(self, key):
+            self._key = key
+            self._next = None
+            self._prev = None
+
+        @property
+        def key(self):
+            """
+            Contains the DATA associated with an DLL node.
+            """
+            return self._key
+
+        @key.setter
+        def key(self, new_key):
+            self._key = new_key
+        
+        @key.deleter
+        def key(self):
+            del self._key
+        
+        @property
+        def next(self):
+            """
+            A POINTER to a DLL successor node.
+            """
+            return self._next
+
+        @next.setter
+        def next(self, new_next):
+
+            # STEP 1: Ensure the `new_next` is of type `DLLS.Node` or `None`
+            if (isinstance(new_next, DLLS.Node) or (new_next is None)):
+                self._next = new_next
+                return
+            
+            # STEP 2: `new_next` is an INAPPROPRIATE type
+            raise TypeError("`new_next` must be of TYPE `DLLS.Node` or `None`")
+        
+        @next.deleter
+        def next(self):
+            del self._next
+        
+        @property
+        def prev(self):
+            """
+            A POINTER to a DLL predecessor node.
+            """
+            return self._prev
+
+        @prev.setter
+        def prev(self, new_prev):
+
+            # STEP 1: Ensure the `new_prev` is type `DLLS.Node` or `None`
+            if (isinstance(new_prev, DLLS.Node) or (new_prev is None)):
+                self._prev = new_prev
+                return
+            
+            # STEP 2: `new_prev` is an INAPPROPRIATE type
+            raise TypeError("`new_prev` must be of TYPE `DLLS.Node` or `None`")
+        
+        @prev.deleter
+        def prev(self):
+            del self._prev
 
     def __init__(self, cmp_fn):
 
@@ -99,7 +106,7 @@ class DLLS(object):
     @property
     def cmp_fn(self):
         """
-        A custom function for COMPARING `BSTNode` keys.
+        A custom function for COMPARING `DLLS.Node` keys.
 
         :Parameters:
             - 'v1': The 1st variable for comparison
@@ -136,13 +143,13 @@ class DLLS(object):
     @head.setter
     def head(self, new_head):
 
-        # STEP 1: Ensure the `new_head` is of TYPE `DLLNode` or `None`
-        if (isinstance(new_head, DLLNode) or (new_head is None)):
+        # STEP 1: Ensure the `new_head` is of TYPE `DLLS.Node` or `None`
+        if (isinstance(new_head, DLLS.Node) or (new_head is None)):
             self._head = new_head
             return
         
         # STEP 2: `new_head` is an INAPPROPRIATE type
-        raise TypeError("`new_head` must be of TYPE `DLLNode` or `None`")
+        raise TypeError("`new_head` must be of TYPE `DLLS.Node` or `None`")
     
     @head.deleter
     def head(self):
@@ -158,13 +165,13 @@ class DLLS(object):
     @tail.setter
     def tail(self, new_tail):
 
-        # STEP 1: Ensure the `new_tail` is of TYPE `DLLNode` or `None`
-        if (isinstance(new_tail, DLLNode) or (new_tail is None)):
+        # STEP 1: Ensure the `new_tail` is of TYPE `DLLS.Node` or `None`
+        if (isinstance(new_tail, DLLS.Node) or (new_tail is None)):
             self._tail = new_tail
             return
         
         # STEP 2: `new_tail` is an inappropriate type
-        raise TypeError("`new_tail` must be of TYPE `DLLNode` or `None`")
+        raise TypeError("`new_tail` must be of TYPE `DLLS.Node` or `None`")
     
     @tail.deleter
     def tail(self):
@@ -193,7 +200,7 @@ class DLLS(object):
         """
         
         # STEP 1: Adjust the DLLS head pointer
-        new_tail = DLLNode(new_key)
+        new_tail = DLLS.Node(new_key)
         new_tail.next = None
         new_tail.prev = self.tail
 
@@ -255,7 +262,7 @@ class DLLS(object):
         while (curr):
 
             # STEP 2: Check if a MATCH was detected
-            if (self.cmp_fn(curr.key, target_key) == self.cmp_equal):
+            if (self.cmp_fn(curr.key, target_key) == DLLS.CMPValues.EQUAL.value):
                 return curr
 
             # STEP 3: NO match detected, move to the next node
@@ -283,7 +290,7 @@ class DLLS(object):
             return None
         
         # BASE CASE 2: Found a match
-        if (self.cmp_fn(self_head.key, target_key) == self.cmp_equal):
+        if (self.cmp_fn(self_head.key, target_key) == DLLS.CMPValues.EQUAL.value):
             return self_head
 
         # RECURSIVE CASE: Still more DLLS nodes to search
